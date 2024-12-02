@@ -1,0 +1,122 @@
+<div class="container mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+  <h2 class="text-3xl font-bold text-gray-800">Edit Profile</h2>
+
+  <!-- Profile Picture Display -->
+  <div class="flex justify-center mb-6">
+    <img *ngIf="profilePictureUrl; else defaultProfile" 
+         [src]="profilePictureUrl" 
+         alt="Profile Picture" 
+         class="w-32 h-32 object-cover rounded-full border-4 border-blue-500" />
+    <ng-template #defaultProfile>
+      <div class="w-32 h-32 flex items-center justify-center bg-gray-300 rounded-full border-4 border-gray-400">
+        <span class="text-gray-600">No Image</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Profile Form -->
+  <form [formGroup]="profileForm" (ngSubmit)="onProfileSubmit()" class="my-6">
+    <div class="mb-4">
+      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+      <input id="username" formControlName="username" 
+             class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 transition" 
+             placeholder="Enter your username" />
+      <div *ngIf="profileForm.get('username')?.invalid && profileForm.get('username')?.touched" 
+           class="text-red-600 text-sm">
+        Username is required.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input id="email" formControlName="email" type="email" 
+             class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 transition" 
+             placeholder="Enter your email" />
+      <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" 
+           class="text-red-600 text-sm">
+        Please enter a valid email.
+      </div>
+    </div>
+
+    <button type="submit" 
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+      Update Profile
+    </button>
+  </form>
+
+  <!-- Change Password Form -->
+  <h3 class="text-xl font-semibold mt-8 text-gray-800">Change Password</h3>
+  <form [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()" class="my-6">
+    <div class="mb-4">
+      <label for="currentPassword" class="block text-sm font-medium text-gray-700">Current Password</label>
+      <input id="currentPassword" formControlName="currentPassword" type="password" 
+             class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 transition" 
+             placeholder="Current Password" />
+      <div *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" 
+           class="text-red-600 text-sm">
+        Current password is required.
+      </div>
+    </div>
+
+    <div class="mb-4 relative">
+      <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+      <input id="newPassword" formControlName="newPassword" [type]="newPasswordVisible ? 'text' : 'password'" 
+             class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 transition" 
+             placeholder="New Password" />
+      <button type="button" (click)="toggleNewPasswordVisibility()" 
+              class="absolute right-3 top-3 text-gray-500 focus:outline-none">
+        <svg *ngIf="!newPasswordVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12c0 4.418 4.5 9 9 9s9-4.582 9-9-4.5-9-9-9-9 4.582-9 9z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12h2M3 3l18 18" />
+        </svg>
+        <svg *ngIf="newPasswordVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3C6 3 2 12 12 21c0 0 6-3 9-9 0 0-6-9-9-9z" />
+        </svg>
+      </button>
+      <div *ngIf="passwordStrength" 
+           [ngClass]="{'text-green-600': passwordStrength === 'Strong', 'text-yellow-600': passwordStrength === 'Medium', 'text-red-600': passwordStrength === 'Weak'}" 
+           class="text-sm">
+        Password Strength: {{ passwordStrength }}
+      </div>
+      <div *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" 
+           class="text-red-600 text-sm">
+        New password is required (at least 6 characters).
+      </div>
+    </div>
+
+    <div class="mb-4 relative">
+      <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+      <input id="confirmNewPassword" formControlName="confirmNewPassword" [type]="confirmNewPasswordVisible ? 'text' : 'password'" 
+             class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 transition" 
+             placeholder="Confirm New Password" />
+      <button type="button" (click)="toggleConfirmPasswordVisibility()" 
+              class="absolute right-3 top-3 text-gray-500 focus:outline-none">
+        <svg *ngIf="!confirmNewPasswordVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12c0 4.418 4.5 9 9 9s9-4.582 9-9-4.5-9-9-9-9 4.582-9 9z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12h2M3 3l18 18" />
+        </svg>
+        <svg *ngIf="confirmNewPasswordVisible" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3C6 3 2 12 12 21c0 0 6-3 9-9 0 0-6-9-9-9z" />
+        </svg>
+      </button>
+      <div *ngIf="passwordForm.errors?.['mismatch'] && passwordForm.get('confirmNewPassword')?.touched" 
+           class="text-red-600 text-sm">
+        Passwords do not match.
+      </div>
+    </div>
+
+    <button type="submit" 
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+      Change Password
+    </button>
+  </form>
+
+  <!-- Profile Picture Upload -->
+  <h3 class="text-xl font-semibold mt-8 text-gray-800">Upload Profile Picture</h3>
+  <input type="file" (change)="onFileChange($event)" accept="image/*" 
+         class="mt-4 mb-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300 transition" />
+  <button (click)="onUploadProfilePicture()" 
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+    Upload Picture
+  </button>
+</div>

@@ -1,0 +1,33 @@
+<div class="container mx-auto mt-5">
+    <h2 class="text-xl font-bold">Categories</h2>
+
+    <!-- Error message -->
+    <div *ngIf="errorMessage" class="mt-4 text-red-500">{{ errorMessage }}</div>
+    
+    <!-- Success message -->
+    <div *ngIf="successMessage" class="mt-4 text-green-500">{{ successMessage }}</div>
+
+    <table class="min-w-full mt-4 border border-gray-300">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 px-4 py-2">Category Title</th>
+                <th class="border border-gray-300 px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of categories">
+                <td class="border border-gray-300 px-4 py-2">{{ category.title }}</td>
+                <td class="border border-gray-300 px-4 py-2">
+                    <button (click)="editCategory(category._id)" class="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600">
+                        Edit
+                    </button>
+                    <button (click)="deleteCategory(category._id)" class="ml-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="categories.length === 0" class="mt-4 text-gray-500">No categories found.</div>
+</div>

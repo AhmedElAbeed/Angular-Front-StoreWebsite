@@ -1,0 +1,97 @@
+<section *ngIf="isLoading">
+  <!-- Loading Skeleton for Product Detail -->
+  <article class="py-4">
+    <div role="status" class="grid grid-cols-1 md:grid-cols-2 space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
+      <!-- Skeleton for image placeholder -->
+      <div class="flex flex-col items-center justify-center col-span-2 md:col-span-1  w-full h-[60vh] bg-gray-300 rounded dark:bg-gray-700"></div>
+      
+      <div class="col-span-1 md:col-span-1 md:px-6 lg:px-10 py-4 h-[60vh] w-full">
+        <div class="h-3 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+        <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-10"></div>
+        <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] mb-2.5"></div>
+        <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+      </div>
+      <span class="sr-only">Loading...</span>
+    </div>
+  </article>
+</section>
+
+<!-- Main Product Detail Section (Visible when not loading) -->
+<section class="py-4 bg-white" *ngIf="!isLoading">
+  <app-breadcrumb></app-breadcrumb>
+  <article class="grid grid-cols-1 md:grid-cols-2">
+    <!-- Image Selection Section -->
+    <div class="flex flex-col md:flex-row col-span-2 md:col-span-1 mx-auto md:mx-0">
+      <div class="flex flex-wrap flex-row md:flex-col gap-2 order-2 md:order-1">
+        <!-- Thumbnails of Images -->
+        <div 
+          [ngClass]="selectedImage == i ? 'w-28 cursor-pointer border border-gray-400' : 'w-28 cursor-pointer'" 
+          *ngFor="let image of images; let i = index">
+          <img 
+            class="object-center" 
+            [src]="'http://localhost:3001' + image" 
+            [alt]="title" 
+            (click)="onImage(image, i)">
+        </div>
+      </div>
+
+      <!-- Main Image Section -->
+      <div class="mx-auto order-1 md:order-2">
+        <img class="w-full object-cover object-center" [src]="imageSrc" [alt]="title">
+      </div>
+    </div>
+
+    <!-- Product Info Section -->
+    <div class="col-span-1 md:col-span-1 md:px-6 lg:px-10 py-4">
+      <h4 class="text-lg text-gray-600">Brand Name</h4>
+      <h3 class="font-bold text-2xl">{{title}}</h3>
+      <p class="text-sm text-gray-600">{{product.type}}</p>
+
+      <div class="flex items-center my-3">
+        <span class="text-md mr-2">{{product.rating.rate}}</span>
+        <span *ngFor="let ratestar of ratingList">
+          <i class="fa-solid fa-star text-orange-400" *ngIf="ratestar"></i>
+        </span>
+        <span *ngFor="let ratestar of ratingList">
+          <i class="fa-regular fa-star text-orange-400" *ngIf="!ratestar"></i>
+        </span>
+        <span class="ml-2 text-md">{{product.rating.count}} Reviews</span>
+      </div>
+
+      <div>
+        <p class="leading-relaxed text-gray-700">{{product.description}}</p>
+      </div>
+
+      <div class="flex">
+        <p class="mt-4 text-2xl font-bold">TND{{product.price}}</p>
+        <p class="ml-4 mt-4 text-2xl text-gray-600 line-through" *ngIf="product.prevprice!==0">TND{{product.prevprice}}</p>
+        <p class="ml-4 mt-5 text-xl text-red-700" *ngIf="product.prevprice!==0">-{{discount}}%</p> 
+      </div>
+
+      <div class="flex flex-wrap gap-2 mt-4">
+        <button *ngFor="let size of product.sizes; let i"
+          [ngClass]="selectedSize == i ? 'h-23 w-23 py-2 w-1/4 border-2 border-[#3c64a9] bg-[#3c64a9] text-white transitiion-all duration-150':
+          'h-23 w-23 py-2 w-1/4 border-2 border-gray-400 text-gray-500 hover:bg-[#3c64a9] hover:text-white'"
+          class="rounded-lg uppercase font-bold text-xs cursor-pointer" 
+          (click)="addSize(size, i)">
+          {{size}}
+        </button>
+      </div>
+
+      <div class="mt-5">
+        <p class="text-sm">In Stock</p>
+        <div *ngIf="product.stock === 'Out of Stock'">
+          <button [disabled]="true" class="py-2 px-4 mt-4 rounded-lg bg-gray-300 text-white text-md cursor-not-allowed">Out of Stock</button>
+        </div>
+        <div *ngIf="product.stock !== 'Out of Stock'">
+          <button (click)="addToCart(product)" *ngIf="!isProductInCart(product)" class="py-2 px-4 mt-4 rounded-lg bg-blue-600 text-white text-md">Add to Cart</button>
+          <button (click)="removeFromCart(product)" *ngIf="isProductInCart(product)" class="py-2 px-4 mt-4 rounded-lg bg-red-600 text-white text-md">Remove from Cart</button>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

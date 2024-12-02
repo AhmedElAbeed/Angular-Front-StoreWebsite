@@ -1,0 +1,99 @@
+<div class="add-product">
+  <h2>Add Product</h2>
+  <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
+  
+    <!-- Title Field -->
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input id="title" [(ngModel)]="newProduct.title" name="title" required placeholder="Enter product title" #title="ngModel" />
+      <div *ngIf="title.invalid && title.touched" class="error-message">
+        Title is required.
+      </div>
+    </div>
+  
+    <!-- Description Field -->
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" [(ngModel)]="newProduct.description" name="description" placeholder="Enter product description"></textarea>
+    </div>
+  
+    <!-- Category Dropdown -->
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select id="category" [(ngModel)]="newProduct.category" name="category" required>
+        <option value="" disabled>Select Category</option>
+        <option *ngFor="let category of categories" [value]="category.title">{{ category.title }}</option>
+      </select>
+    </div>
+  
+    <!-- Type Field -->
+    <div class="form-group">
+      <label for="type">Type:</label>
+      <input id="type" [(ngModel)]="newProduct.type" name="type" required placeholder="Enter product type" #type="ngModel" />
+    </div>
+  
+    <!-- Sizes Field -->
+    <div class="form-group">
+      <label for="sizes">Sizes (comma-separated):</label>
+      <input id="sizes" [(ngModel)]="newProduct.sizes" name="sizes" (ngModelChange)="newProduct.sizes = $event.split(',')" placeholder="e.g., Small, Medium, Large" />
+    </div>
+  
+    <!-- Single Size Field -->
+    <div class="form-group">
+      <label for="size">Single Size:</label>
+      <input id="size" [(ngModel)]="newProduct.size" name="size" placeholder="Enter size (e.g., M)" />
+    </div>
+  
+<!-- Image Upload -->
+<div class="form-group">
+<label for="images">Images:</label>
+<input type="file" (change)="onImageSelect($event)" multiple />
+
+<!-- Preview the selected images -->
+<div *ngIf="previewImages.length > 0" class="image-previews">
+  <div *ngFor="let preview of previewImages; let i = index" class="image-preview">
+    <img [src]="preview" alt="Preview Image" />
+    <span class="remove-button" (click)="removeImage(i)">X</span>
+  </div>
+</div>
+</div>
+  
+    <!-- Stock Field -->
+    <div class="form-group">
+      <label for="stock">Stock:</label>
+      <input id="stock" [(ngModel)]="newProduct.stock" name="stock" type="number" placeholder="Enter available stock" />
+    </div>
+  
+    <!-- Price Field -->
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input id="price" [(ngModel)]="newProduct.price" name="price" type="number" required placeholder="Enter price" />
+    </div>
+  
+    <!-- Previous Price Field -->
+    <div class="form-group">
+      <label for="prevprice">Previous Price:</label>
+      <input id="prevprice" [(ngModel)]="newProduct.prevprice" name="prevprice" type="number" placeholder="Enter previous price" />
+    </div>
+  
+    <!-- Discount Field -->
+    <div class="form-group">
+      <label for="discount">Discount (%):</label>
+      <input id="discount" [(ngModel)]="newProduct.discount" name="discount" type="number" placeholder="Enter discount percentage" />
+    </div>
+  
+    <!-- Rating Field -->
+    <div class="form-group">
+      <label for="rating">Rating (Rate / Count):</label>
+      <div class="rating-input">
+        <input id="rate" [(ngModel)]="newProduct.rating.rate" name="rate" type="number" step="0.1" placeholder="Rate (e.g., 4.5)" />
+        <input id="count" [(ngModel)]="newProduct.rating.count" name="count" type="number" placeholder="Count (e.g., 10)" />
+      </div>
+    </div>
+  
+    <div class="form-buttons">
+      <button type="submit" [disabled]="productForm.invalid">Add Product</button>
+    <button type="button" (click)="resetForm(productForm)">Reset</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,45 @@
+<div class="product-list">
+    <h2>Product List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Stock</th>
+          <th>Actions</th> <!-- Added column for actions -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td class="image-cell">
+            <div class="image-container">
+              <img 
+                *ngIf="product.images && product.images.length > 0" 
+                [src]="'http://localhost:3001' + product.images[0]" 
+                alt="Product Image"
+                class="product-image" />
+              <div class="eye-icon" (click)="viewImage(product.images[0])">
+                <i class="fas fa-eye"></i> <!-- Eye Icon -->
+              </div>
+            </div>
+          </td>
+          <td>{{ product.title }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.stock }}</td>
+          <td class="actions">
+            <button class="action-btn update-btn" (click)="updateProduct(product._id)">Update</button>
+            <button class="action-btn delete-btn" (click)="deleteProduct(product._id)">Delete</button>
+          </td>          
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+<!-- Modal for Image Preview -->
+<div *ngIf="isModalOpen" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <img [src]="selectedImage" alt="Preview" class="modal-image" />
+  </div>
+</div>

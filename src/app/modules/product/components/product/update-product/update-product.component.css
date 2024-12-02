@@ -1,0 +1,146 @@
+.update-product {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .update-product h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .update-product form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased spacing for better readability */
+  }
+  
+  .update-product label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .update-product input,
+  .update-product textarea,
+  .update-product select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .update-product input:focus,
+  .update-product textarea:focus,
+  .update-product select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .update-product input[type="number"] {
+    -moz-appearance: textfield; /* Remove spinner for number inputs */
+  }
+  
+  .update-product textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .update-product .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .update-product .form-group .error-message {
+    font-size: 0.875rem;
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .update-product .rating-input {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .update-product button {
+    padding: 14px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .update-product button:hover {
+    background-color: #0056b3;
+  }
+  
+  .update-product button:disabled {
+    background-color: #b0c4de;
+    cursor: not-allowed;
+  }
+  
+  .update-product .form-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    justify-content: flex-start; /* Align to the left; use 'center' for center alignment */
+    align-items: center; /* Vertically align buttons */
+    margin-top: 20px; /* Add spacing from the form fields */
+  }
+  
+  .update-product select {
+    background-color: #f9f9f9;
+  }
+  
+  .update-product .image-previews {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .update-product .image-previews img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .update-product .image-previews .image-preview {
+    position: relative;
+  }
+  
+  .update-product .image-previews .image-preview span {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  /* Specific button colors for submit and reset */
+  .update-product button[type="submit"] {
+    background-color: #4caf50;
+  }
+  
+  .update-product button[type="button"] {
+    background-color: #f44336;
+  }
+  
+  .update-product button:disabled {
+    background-color: #ccc;
+  }
+  

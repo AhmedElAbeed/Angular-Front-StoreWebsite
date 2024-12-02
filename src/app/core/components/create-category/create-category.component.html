@@ -1,0 +1,29 @@
+<div class="container mx-auto mt-5">
+    <h2 class="text-xl font-bold">Create New Category</h2>
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700">Category Title</label>
+        <input
+          id="title"
+          type="text"
+          class="border border-gray-300 rounded p-2 w-full"
+          formControlName="title"
+          required
+        />
+        <div *ngIf="categoryForm.get('title')?.invalid && (categoryForm.get('title')?.touched || categoryForm.get('title')?.dirty)" class="text-red-500 text-sm">
+          Category title is required.
+        </div>
+      </div>
+  
+      <button
+        type="submit"
+        [disabled]="categoryForm.invalid"
+        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+      >
+        Create Category
+      </button>
+    </form>
+  
+    <div *ngIf="errorMessage" class="mt-4 text-red-500">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="mt-4 text-green-500">{{ successMessage }}</div>
+</div>
